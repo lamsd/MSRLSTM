@@ -21,7 +21,7 @@ class Parser(object):
     def create_parser(self):
         self.parser.add_argument(
             '--config',
-            default='/public/lhy/wms/TMD_Project_2019/Code/SimpleGCN/utils/config.yaml',
+            default='utils/config.yaml',
             help='absolute path of config file')
         self.parser.add_argument(
             '--mode',

@@ -30,7 +30,7 @@ def read_data_all():
 
     data= pd.DataFrame()
     for i in list_file:
-        path = f'../DATASET/archive_data/{i}.csv'
+        path = f'../../DATASET/archive_data/{i}.csv'
         _df = pd.read_csv(path, header=0, sep=",")
         data = pd.concat([data, _df], axis=1)
     data.columns = column_names

@@ -2,7 +2,7 @@ mode: data_preprocess
 data_preprocess_args:
   window_size: 300
   overlap: 0.3
-  label_path: '/public/lhy/data/data_classed_by_label_integrated/'
+  label_path: '/utils/'
 train_args:
   device: 0
   epoch: 5
