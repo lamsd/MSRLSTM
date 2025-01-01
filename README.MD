@@ -52,5 +52,8 @@ This open source code is specially refracted for more human friendly study use. 
 
 
 
-python run.py --config=utils/config.yaml --mode=data_preprocess
-python run.py --config=utils/config.yaml --mode=train
+!python run.py --config=utils/config.yaml --mode=data_preprocess
+
+!python run.py --config=utils/config.yaml --mode=train
+
+!python run.py --config=utils/config.yaml --mode=test
