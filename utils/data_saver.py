@@ -92,8 +92,6 @@ def segment_signal(data, window_size, overlap):
             segments = np.vstack([segments, segments_tmp])
             del segments_tmp
             labels = np.append(labels, stats.mode(data['label'][start:end])[0])
-            if count > 7000:
-                break
     return segments, labels
 
 
