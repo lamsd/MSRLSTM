@@ -24,3 +24,6 @@ if __name__ == '__main__':
     elif 'train' == mode:
         trainer = Trainer(args.train_args)
         trainer.train()
+    elif 'test' == mode:
+        trainer = Trainer(args.train_args)
+        test_loss, test_accuracy = trainer.test('path_to_test_data.npz', 'model_name.h5')

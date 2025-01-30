@@ -1,6 +1,5 @@
 import os
 import tensorflow as tf
-# import keras.backend.tensorflow_backend as KTF
 import numpy as np
 
 from tensorflow.keras.callbacks import ModelCheckpoint, TensorBoard
@@ -56,6 +55,7 @@ class Trainer:
             model_name + '.h5', monitor='val_accuracy', verbose=1, save_best_only=True, mode='max')
         log_dir = "./logs/fit/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
         tensorboard_callback = TensorBoard(log_dir=log_dir, histogram_freq=1)
+        print(f"TensorBoard logs saved in {log_dir}.")
         callbacks_list = [checkpoint, tensorboard_callback]
         return callbacks_list
 
@@ -206,3 +206,59 @@ class Trainer:
         self.mag_y_v = test_x[:, :, 10:11]
         self.mag_z_v = test_x[:, :, 11:12]
         self.pressure_v = test_x[:, :, 19:20]
+
+
+    def test(self, test_data_path, model_path):
+        """
+        Tests the trained model on the provided test dataset.
+        """
+        # Load the model
+        model = tf.keras.models.load_model(model_path)
+        print(f"Loaded model from {model_path}")
+        
+        test_data = np.load(test_data_path)
+        test_x = test_data["x"]
+        test_y = test_data["y"]
+        
+        # Evaluate the model
+        loss, accuracy = model.evaluate(test_x, test_y, verbose=1)
+        print(f"Test Loss: {loss:.4f}")
+        print(f"Test Accuracy: {accuracy:.4f}")
+        return loss, accuracy
+
+    def infer(self, input_data, model_path):
+        """
+        Performs inference on the given input data using the trained model.
+        """
+        # Load the model
+        model = tf.keras.models.load_model(model_path)
+        print(f"Loaded model from {model_path}")
+        
+        # Perform inference
+        predictions = model.predict(input_data, verbose=1)
+        print("Inference completed.")
+        return predictions
+
+    def preprocess_for_inference(self, raw_data):
+        """
+        Preprocesses raw input data for inference.
+        This method should be adapted based on the input data format.
+        """
+        # Example: Reshaping and scaling raw data
+        processed_data = np.array(raw_data).reshape(1, -1)  # Reshape for single instance
+        processed_data = processed_data / 255.0  # Example normalization
+        return processed_data
+
+    def serverving(self, raw_data, model_path):
+        """
+        Prepares the raw data, loads the model, and returns the predictions.
+        """
+        # Preprocess the input
+        input_data = self.preprocess_for_inference(raw_data)
+        print("Input data preprocessed for inference.")
+        
+        # Perform inference
+        predictions = self.infer(input_data, model_path)
+        print("Serving completed.")
+        return predictions
+
